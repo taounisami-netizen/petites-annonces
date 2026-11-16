@@ -64,4 +64,10 @@ class Fighter extends Model
     {
         return $this->price - $this->commission();
     }
-}
+         public function winRate(): int
+    {
+        $total = $this->wins + $this->losses;
+
+        return $total === 0 ? 0 : (int) round($this->wins / $total * 100);
+    }
+    }

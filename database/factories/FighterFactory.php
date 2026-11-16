@@ -27,7 +27,24 @@ class FighterFactory extends Factory
             'city_id'        => City::factory(),
             'title'          => $title,
             'slug'           => Str::slug($title).'-'.Str::lower(Str::random(6)),
-            'description'    => fake('fr_FR')->realText(300),
+            'description'    => implode(' ', [
+    fake()->randomElement([
+        'Une embrouille de prévue ? Je m\'en occupe à votre place.',
+        'Ancien videur de boîte de nuit, je ne recule devant personne.',
+        'Toujours à l\'heure, jamais blessé, rarement poli.',
+        'Vous restez au chaud, je règle le conflit pour vous.',
+        'Dix ans de bagarres de parking, zéro regret.',
+    ]),
+    'Spécialité : '.$style->label().'.',
+    $style === FightingStyle::Wrestling
+        ? 'Très spectaculaire sur un ring, nettement moins dans la rue.'
+        : fake()->randomElement([
+            'Je ne frappe jamais en premier… sauf supplément.',
+            'Discrétion assurée, aucune question posée.',
+            'Déplacement possible dans toute la ville.',
+            'Paiement d\'avance, aucun remboursement en cas de défaite.',
+        ]),
+]),
             'style'          => $style,
             'price'          => $style === FightingStyle::Wrestling
                 ? fake()->numberBetween(15, 60)

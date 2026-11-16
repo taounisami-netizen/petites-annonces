@@ -17,7 +17,7 @@
             </div>
 
             <p class="mt-2 text-gray-500">
-                📍 {{ $fighter->city->name }} · Proposé par {{ $fighter->user->name }}
+               📍 <a href="{{ route('cities.show', $fighter->city) }}" class="hover:text-red-600 hover:underline">{{ $fighter->city->name }}</a> · Proposé par {{ $fighter->user->name }}
             </p>
 
             <a href="{{ route('styles.show', $fighter->style->value) }}"

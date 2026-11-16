@@ -17,7 +17,7 @@
     </div>
 
     <p class="text-sm text-gray-500">
-        📍 {{ $fighter->city->name }} · {{ $fighter->user->name }}
+        📍 <a href="{{ route('cities.show', $fighter->city) }}" class="relative z-10 hover:text-red-600 hover:underline">{{ $fighter->city->name }}</a> · {{ $fighter->user->name }}
     </p>
 
     <p class="text-sm">

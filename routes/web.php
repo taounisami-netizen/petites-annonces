@@ -6,6 +6,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
 Route::get('/', [FighterController::class, 'home'])->name('home');
 Route::get('/fighters', [FighterController::class, 'index'])->name('fighters.index');
+Route::middleware('auth')->group(function () {
+    Route::get('/fighters/create', [FighterController::class, 'create'])->name('fighters.create');
+    Route::post('/fighters', [FighterController::class, 'store'])->name('fighters.store');
+});
 Route::get('/fighters/{fighter}', [FighterController::class, 'show'])->name('fighters.show');
 Route::get('/styles/{style}', [FighterController::class, 'style'])->name('styles.show');
 Route::get('/villes/{city}', [CityController::class, 'show'])->name('cities.show');

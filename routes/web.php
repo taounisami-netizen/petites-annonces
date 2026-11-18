@@ -9,6 +9,10 @@ Route::get('/fighters', [FighterController::class, 'index'])->name('fighters.ind
 Route::middleware('auth')->group(function () {
     Route::get('/fighters/create', [FighterController::class, 'create'])->name('fighters.create');
     Route::post('/fighters', [FighterController::class, 'store'])->name('fighters.store');
+    Route::get('/fighters/{fighter}/edit', [FighterController::class, 'edit'])->name('fighters.edit');
+    Route::put('/fighters/{fighter}', [FighterController::class, 'update'])->name('fighters.update');
+    Route::delete('/fighters/{fighter}', [FighterController::class, 'destroy'])->name('fighters.destroy');
+    Route::get('/mes-combattants', [FighterController::class, 'mine'])->name('fighters.mine');
 });
 Route::get('/fighters/{fighter}', [FighterController::class, 'show'])->name('fighters.show');
 Route::get('/styles/{style}', [FighterController::class, 'style'])->name('styles.show');

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Enums\FightingStyle;
 use App\Http\Requests\StoreFighterRequest;
+use App\Http\Requests\UpdateFighterRequest;
 use App\Models\City;
 use App\Models\Fighter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -46,8 +48,9 @@ class FighterController extends Controller
     public function create(): View
     {
         return view('fighters.create', [
-            'cities' => City::orderBy('name')->get(),
-            'styles' => FightingStyle::cases(),
+            'fighter' => new Fighter(),
+            'cities'  => City::orderBy('name')->get(),
+            'styles'  => FightingStyle::cases(),
         ]);
     }
 
@@ -60,6 +63,45 @@ class FighterController extends Controller
 
         return redirect()->route('fighters.show', $fighter)
             ->with('success', 'Votre profil de combattant est en ligne !');
+    }
+
+    public function mine(Request $request): View
+    {
+        $fighters = $request->user()->fighters()
+            ->with(['city', 'user'])
+            ->latest()
+            ->paginate(12);
+
+        return view('fighters.mine', compact('fighters'));
+    }
+
+    public function edit(Fighter $fighter): View
+    {
+        Gate::authorize('update', $fighter);
+
+        return view('fighters.edit', [
+            'fighter' => $fighter,
+            'cities'  => City::orderBy('name')->get(),
+            'styles'  => FightingStyle::cases(),
+        ]);
+    }
+
+    public function update(UpdateFighterRequest $request, Fighter $fighter): RedirectResponse
+    {
+        $fighter->update($request->validated());
+
+        return redirect()->route('fighters.show', $fighter)
+            ->with('success', 'Votre profil a été mis à jour.');
+    }
+
+    public function destroy(Fighter $fighter): RedirectResponse
+    {
+        Gate::authorize('delete', $fighter);
+
+        $fighter->delete();
+
+        return redirect()->route('fighters.mine')
+            ->with('success', 'Votre profil de combattant a été supprimé.');
     }
 
     public function show(Fighter $fighter): View

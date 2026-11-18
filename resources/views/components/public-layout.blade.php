@@ -16,13 +16,18 @@
             <a href="{{ route('fighters.index') }}" class="hover:text-red-400">Combattants</a>
 
             <div class="ml-auto flex gap-4">
-                @auth
+     @auth
+    <a href="{{ route('fighters.mine') }}" class="hover:text-red-400">Mes combattants</a>
     <a href="{{ route('fighters.create') }}" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">Proposer mes services</a>
     <a href="{{ route('dashboard') }}" class="hover:text-red-400">Mon compte</a>
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="hover:text-red-400">Déconnexion</button>
+    </form>
 @else
-                    <a href="{{ route('login') }}" class="hover:text-red-400">Connexion</a>
-                    <a href="{{ route('register') }}" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">Inscription</a>
-                @endauth
+    <a href="{{ route('login') }}" class="hover:text-red-400">Connexion</a>
+    <a href="{{ route('register') }}" class="bg-red-600 hover:bg-red-700 px-3 py-1 rounded">Inscription</a>
+@endauth
             </div>
         </nav>
     </header>

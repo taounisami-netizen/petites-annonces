@@ -17,7 +17,7 @@
             </div>
 
             <p class="mt-2 text-gray-500">
-               📍 <a href="{{ route('cities.show', $fighter->city) }}" class="hover:text-red-600 hover:underline">{{ $fighter->city->name }}</a> · Proposé par {{ $fighter->user->name }}
+                📍 <a href="{{ route('cities.show', $fighter->city) }}" class="hover:text-red-600 hover:underline">{{ $fighter->city->name }}</a> · Proposé par {{ $fighter->user->name }}
             </p>
 
             <a href="{{ route('styles.show', $fighter->style->value) }}"
@@ -72,6 +72,25 @@
                     Connectez-vous pour commander
                 </a>
             @endauth
+
+            @can('update', $fighter)
+                <div class="mt-6 pt-6 border-t flex gap-2">
+                    <a href="{{ route('fighters.edit', $fighter) }}"
+                       class="flex-1 text-center bg-gray-900 hover:bg-gray-700 text-white rounded px-4 py-2 font-semibold">
+                        Modifier
+                    </a>
+
+                    <form method="POST" action="{{ route('fighters.destroy', $fighter) }}"
+                          onsubmit="return confirm('Supprimer définitivement ce profil ?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                                class="bg-white border border-red-600 text-red-600 hover:bg-red-50 rounded px-4 py-2 font-semibold">
+                            Supprimer
+                        </button>
+                    </form>
+                </div>
+            @endcan
         </aside>
 
     </div>

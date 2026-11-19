@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Cache;
 
 class City extends Model
 {
-use HasFactory;
+    use HasFactory;
 
-protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'slug'];
 
-public function getRouteKeyName(): string
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
@@ -26,7 +26,6 @@ public function getRouteKeyName(): string
     }
 
     public function fighters(): HasMany
-
     {
         return $this->hasMany(Fighter::class);
     }

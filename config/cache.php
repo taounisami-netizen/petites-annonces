@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\City;
+use App\Models\Fighter;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 return [
@@ -132,10 +136,10 @@ return [
     */
 
     'serializable_classes' => [
-        App\Models\City::class,
-        App\Models\Fighter::class,
-        App\Models\User::class,
-        Illuminate\Database\Eloquent\Collection::class,
+        City::class,
+        Fighter::class,
+        User::class,
+        Collection::class,
     ],
 
 ];

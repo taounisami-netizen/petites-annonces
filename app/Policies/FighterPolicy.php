@@ -2,65 +2,20 @@
 
 namespace App\Policies;
 
+use App\Models\Fighter;
 use App\Models\User;
-use App\Models\fighter;
-use Illuminate\Auth\Access\Response;
 
 class FighterPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
-    public function viewAny(User $user): bool
+    // Seul le propriétaire du profil peut le modifier
+    public function update(User $user, Fighter $fighter): bool
     {
-        return false;
+        return $user->id === $fighter->user_id;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, fighter $fighter): bool
+    // ... et le supprimer
+    public function delete(User $user, Fighter $fighter): bool
     {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can create models.
-     */
-    public function create(User $user): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, fighter $fighter): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, fighter $fighter): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, fighter $fighter): bool
-    {
-        return false;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, fighter $fighter): bool
-    {
-        return false;
+        return $user->id === $fighter->user_id;
     }
 }

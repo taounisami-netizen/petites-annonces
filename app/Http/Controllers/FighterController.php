@@ -9,6 +9,7 @@ use App\Models\City;
 use App\Models\Fighter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -17,8 +18,13 @@ class FighterController extends Controller
 {
     public function home(): View
     {
+        // Les 8 derniers combattants, gardés 10 minutes en cache
+        $fighters = Cache::remember('home.latest', 600, fn () =>
+            Fighter::available()->with(['city', 'user'])->latest()->take(8)->get()
+        );
+
         return view('home', [
-            'fighters' => Fighter::available()->with(['city', 'user'])->latest()->take(6)->get(),
+            'fighters' => $fighters,
             'styles'   => FightingStyle::cases(),
         ]);
     }

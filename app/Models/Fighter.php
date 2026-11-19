@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Fighter extends Model
 {
@@ -30,6 +31,13 @@ class Fighter extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    protected static function booted(): void
+    {
+        // Un combattant publié, modifié ou supprimé : l'accueil en cache n'est plus à jour
+        static::saved(fn () => Cache::forget('home.latest'));
+        static::deleted(fn () => Cache::forget('home.latest'));
     }
 
 

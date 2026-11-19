@@ -131,6 +131,11 @@ return [
     |
     */
 
-    'serializable_classes' => false,
+    'serializable_classes' => [
+        App\Models\City::class,
+        App\Models\Fighter::class,
+        App\Models\User::class,
+        Illuminate\Database\Eloquent\Collection::class,
+    ],
 
 ];

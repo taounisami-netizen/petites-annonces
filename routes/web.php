@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FighterController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
@@ -13,6 +14,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/fighters/{fighter}', [FighterController::class, 'update'])->name('fighters.update');
     Route::delete('/fighters/{fighter}', [FighterController::class, 'destroy'])->name('fighters.destroy');
     Route::get('/mes-combattants', [FighterController::class, 'mine'])->name('fighters.mine');
+    Route::post('/fighters/{fighter}/messages', [MessageController::class, 'store'])->name('messages.store');
 });
 Route::get('/fighters/{fighter}', [FighterController::class, 'show'])->name('fighters.show');
 Route::get('/styles/{style}', [FighterController::class, 'style'])->name('styles.show');

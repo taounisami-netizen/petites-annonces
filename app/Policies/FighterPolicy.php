@@ -18,4 +18,11 @@ class FighterPolicy
     {
         return $user->id === $fighter->user_id;
     }
+
+    // On ne peut pas s'écrire à soi-même, ni contacter un combattant indisponible
+    public function contact(User $user, Fighter $fighter): bool
+    {
+        return $user->id !== $fighter->user_id
+            && $fighter->unavailable_at === null;
+    }
 }

@@ -22,8 +22,8 @@ class Fighter extends Model
     protected function casts(): array
     {
         return [
-            'price'          => 'decimal:2',
-            'style'          => FightingStyle::class,
+            'price' => 'decimal:2',
+            'style' => FightingStyle::class,
             'unavailable_at' => 'datetime',
         ];
     }
@@ -40,7 +40,6 @@ class Fighter extends Model
         static::deleted(fn () => Cache::forget('home.latest'));
     }
 
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -56,13 +55,10 @@ class Fighter extends Model
         return $this->hasMany(Message::class);
     }
 
-
     public function scopeAvailable(Builder $query): void
     {
         $query->whereNull('unavailable_at');
     }
-
-  
 
     public function isUndefeated(): bool
     {
@@ -78,10 +74,11 @@ class Fighter extends Model
     {
         return $this->price - $this->commission();
     }
-         public function winRate(): int
+
+    public function winRate(): int
     {
         $total = $this->wins + $this->losses;
 
         return $total === 0 ? 0 : (int) round($this->wins / $total * 100);
     }
-    }
+}

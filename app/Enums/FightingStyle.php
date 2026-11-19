@@ -13,11 +13,11 @@ enum FightingStyle: string
     public function label(): string
     {
         return match ($this) {
-            self::Boxing    => 'Boxe anglaise',
-            self::Mma       => 'MMA',
-            self::Judo      => 'Judo',
+            self::Boxing => 'Boxe anglaise',
+            self::Mma => 'MMA',
+            self::Judo => 'Judo',
             self::Wrestling => 'Catch',
-            self::Street    => 'Bagarre de rue',
+            self::Street => 'Bagarre de rue',
         };
     }
 }

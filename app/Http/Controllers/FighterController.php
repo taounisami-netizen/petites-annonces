@@ -19,13 +19,12 @@ class FighterController extends Controller
     public function home(): View
     {
         // Les 8 derniers combattants, gardés 10 minutes en cache
-        $fighters = Cache::remember('home.latest', 600, fn () =>
-            Fighter::available()->with(['city', 'user'])->latest()->take(8)->get()
+        $fighters = Cache::remember('home.latest', 600, fn () => Fighter::available()->with(['city', 'user'])->latest()->take(8)->get()
         );
 
         return view('home', [
             'fighters' => $fighters,
-            'styles'   => FightingStyle::cases(),
+            'styles' => FightingStyle::cases(),
         ]);
     }
 
@@ -34,29 +33,26 @@ class FighterController extends Controller
         $fighters = Fighter::query()
             ->available()
             ->with(['city', 'user'])
-            ->when($request->filled('q'), fn ($query) =>
-                $query->where('title', 'like', '%'.$request->input('q').'%'))
-            ->when($request->filled('city'), fn ($query) =>
-                $query->whereRelation('city', 'slug', $request->input('city')))
-            ->when($request->filled('max_price'), fn ($query) =>
-                $query->where('price', '<=', $request->integer('max_price')))
+            ->when($request->filled('q'), fn ($query) => $query->where('title', 'like', '%'.$request->input('q').'%'))
+            ->when($request->filled('city'), fn ($query) => $query->whereRelation('city', 'slug', $request->input('city')))
+            ->when($request->filled('max_price'), fn ($query) => $query->where('price', '<=', $request->integer('max_price')))
             ->latest()
             ->paginate(12)
             ->withQueryString();
 
         return view('fighters.index', [
             'fighters' => $fighters,
-            'cities'   => City::orderBy('name')->get(),
-            'styles'   => FightingStyle::cases(),
+            'cities' => City::orderBy('name')->get(),
+            'styles' => FightingStyle::cases(),
         ]);
     }
 
     public function create(): View
     {
         return view('fighters.create', [
-            'fighter' => new Fighter(),
-            'cities'  => City::orderBy('name')->get(),
-            'styles'  => FightingStyle::cases(),
+            'fighter' => new Fighter,
+            'cities' => City::orderBy('name')->get(),
+            'styles' => FightingStyle::cases(),
         ]);
     }
 
@@ -87,8 +83,8 @@ class FighterController extends Controller
 
         return view('fighters.edit', [
             'fighter' => $fighter,
-            'cities'  => City::orderBy('name')->get(),
-            'styles'  => FightingStyle::cases(),
+            'cities' => City::orderBy('name')->get(),
+            'styles' => FightingStyle::cases(),
         ]);
     }
 

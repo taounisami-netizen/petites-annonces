@@ -2,28 +2,12 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
-
-class UpdatefighterRequest extends StoreFighterRequest
+class UpdateFighterRequest extends StoreFighterRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
+    // Les règles de validation sont les mêmes qu'à la création (héritées),
+    // on vérifie juste en plus que l'utilisateur connecté est bien le propriétaire
     public function authorize(): bool
     {
-        return false;
-    }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, ValidationRule|array<mixed>|string>
-     */
-    public function rules(): array
-    {
-        return [
-            //
-        ];
+        return $this->user()->can('update', $this->route('fighter'));
     }
 }

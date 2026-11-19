@@ -62,14 +62,30 @@
             </dl>
 
             @auth
-                <button disabled
-                        class="mt-6 w-full bg-gray-300 text-gray-600 py-2 rounded font-semibold cursor-not-allowed">
-                    Réservation bientôt disponible
-                </button>
+                @can('contact', $fighter)
+                    <form method="POST" action="{{ route('messages.store', $fighter) }}" class="mt-6">
+                        @csrf
+
+                        <label for="body" class="block font-semibold mb-1">
+                            Écrire à {{ $fighter->user->name }}
+                        </label>
+                        <textarea id="body" name="body" rows="4"
+                                  placeholder="Décrivez votre embrouille…"
+                                  class="w-full rounded @error('body') border-red-500 @else border-gray-300 @enderror">{{ old('body') }}</textarea>
+                        @error('body')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+
+                        <button type="submit"
+                                class="mt-2 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded font-semibold">
+                            Envoyer le message
+                        </button>
+                    </form>
+                @endcan
             @else
                 <a href="{{ route('login') }}"
                    class="mt-6 block w-full text-center bg-red-600 hover:bg-red-700 text-white py-2 rounded font-semibold">
-                    Connectez-vous pour commander
+                    Connectez-vous pour contacter ce combattant
                 </a>
             @endauth
 

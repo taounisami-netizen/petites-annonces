@@ -30,6 +30,14 @@
 @endauth
             </div>
         </nav>
+
+        <div class="bg-gray-800">
+            <div class="max-w-6xl mx-auto px-4 py-2 flex flex-wrap gap-4 text-sm text-gray-300">
+                @foreach ($navCities as $navCity)
+                    <a href="{{ route('cities.show', $navCity) }}" class="hover:text-red-400">{{ $navCity->name }}</a>
+                @endforeach
+            </div>
+        </div>
     </header>
 
    <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-8">
